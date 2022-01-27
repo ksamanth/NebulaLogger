@@ -74,8 +74,8 @@ jobs:
             - name: 'Verify LWC with ESLint'
               run: npm run lint:verify:lwc
 
-            - name: 'Verify Apex with SFDX Scanner'
-              run: npm run lint:verify:apex
+            # - name: 'Verify Apex with SFDX Scanner'
+            #   run: npm run lint:verify:apex
 
             # TODO - uncomment - temporarily commented-out due to an issue with apexdocs in the pipeline
             # - name: 'Verify docs are updated'
@@ -141,10 +141,14 @@ jobs:
             - name: 'Authorize Dev Hub'
               shell: bash
               run: |
-                  echo ${{ env.DEVHUB_SFDX_URL }} > ./DEVHUB_SFDX_URL.txt
+                  echo ${{ env.DEVHUB_JWT_SERVER_KEY }} > ./jwt-server.key
                   npx sfdx auth:sfdxurl:store --sfdxurlfile ./DEVHUB_SFDX_URL.txt --setalias nebula-logger-packaging --setdefaultdevhubusername
+                  npx sfdx force:auth:jwt:grant --instanceurl https://login.salesforce.com --clientid ${{ env.DEVHUB_CONSUMER_KEY }} --username ${{ env.DEVHUB_BOT_USERNAME }} --jwtkeyfile ./jwt-server.key --setdefaultdevhubusername
+                  rm ./jwt-server.key
               env:
-                  DEVHUB_SFDX_URL: ${{ secrets.DEVHUB_SFDX_URL }}
+                  DEVHUB_BOT_USERNAME: ${{ secrets.DEVHUB_BOT_USERNAMEEY }}
+                  DEVHUB_CONSUMER_KEY: ${{ secrets.DEVHUB_CONSUMER_KEY }}
+                  DEVHUB_JWT_SERVER_KEY: ${{ secrets.DEVHUB_JWT_SERVER_KEY }}
 
             - name: 'Create Base Scratch Org'
               run: npm run org:create:base -- -durationdays 1 -devhubs nebula-logger-packaging
@@ -188,10 +192,14 @@ jobs:
             - name: 'Authorize Dev Hub'
               shell: bash
               run: |
-                  echo ${{ env.DEVHUB_SFDX_URL }} > ./DEVHUB_SFDX_URL.txt
+                  echo ${{ env.DEVHUB_JWT_SERVER_KEY }} > ./jwt-server.key
                   npx sfdx auth:sfdxurl:store --sfdxurlfile ./DEVHUB_SFDX_URL.txt --setalias nebula-logger-packaging --setdefaultdevhubusername
+                  npx sfdx force:auth:jwt:grant --instanceurl https://login.salesforce.com --clientid ${{ env.DEVHUB_CONSUMER_KEY }} --username ${{ env.DEVHUB_BOT_USERNAME }} --jwtkeyfile ./jwt-server.key --setdefaultdevhubusername
+                  rm ./jwt-server.key
               env:
-                  DEVHUB_SFDX_URL: ${{ secrets.DEVHUB_SFDX_URL }}
+                  DEVHUB_BOT_USERNAME: ${{ secrets.DEVHUB_BOT_USERNAMEEY }}
+                  DEVHUB_CONSUMER_KEY: ${{ secrets.DEVHUB_CONSUMER_KEY }}
+                  DEVHUB_JWT_SERVER_KEY: ${{ secrets.DEVHUB_JWT_SERVER_KEY }}
 
             - name: 'Create Scratch Org with Experience Sites Enabled'
               run: npm run org:create:experience-cloud -- -durationdays 1 -devhubs nebula-logger-packaging
