@@ -75,10 +75,7 @@ jobs:
 
             - name: 'Verify package version number is updated'
               if: ${{ github.event_name == 'pull_request' }}
-              run: |
-                  npm run package:version:number:verify
-              env:
-                  DEV_HUB_SFDX_URL: ${{ secrets.DEV_HUB_SFDX_URL }}
+              run: npm run package:version:number:verify
 
             - name: 'Verify LWC with ESLint'
               run: npm run lint:verify:lwc
