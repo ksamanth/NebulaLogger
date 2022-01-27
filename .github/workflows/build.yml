@@ -61,25 +61,23 @@ jobs:
               if: steps.cache-npm.outputs.cache-hit != 'true'
               run: npm ci
 
-            # TODO remove after testing
             - name: 'Authorize Dev Hub'
               shell: bash
               run: |
                   echo "${{ env.DEVHUB_JWT_SERVER_KEY }}" > ./jwt-server.key
-                  ls
                   npx sfdx force:auth:jwt:grant --instanceurl https://login.salesforce.com --clientid ${{ env.DEVHUB_CONSUMER_KEY }} --username ${{ env.DEVHUB_BOT_USERNAME }} --jwtkeyfile ./jwt-server.key --setdefaultdevhubusername
-                  rm ./jwt-server.key
               env:
                   DEVHUB_BOT_USERNAME: ${{ secrets.DEVHUB_BOT_USERNAME }}
                   DEVHUB_CONSUMER_KEY: ${{ secrets.DEVHUB_CONSUMER_KEY }}
                   DEVHUB_JWT_SERVER_KEY: ${{ secrets.DEVHUB_JWT_SERVER_KEY }}
 
+            # TODO remove after testing
+            - name: 'Create Base Scratch Org'
+              run: npx sfdx force:org:create --targetdevhubusername ${{ secrets.DEVHUB_BOT_USERNAME }} --durationdays 1 --definitionfile ./config/scratch-orgs/base-scratch-def.json --wait 20 --json
+
             - name: 'Verify package version number is updated'
               if: ${{ github.event_name == 'pull_request' }}
               run: |
-                  echo ${{ env.DEVHUB_SFDX_URL }} > ./DEVHUB_SFDX_URL.txt
-                  npx sfdx auth:sfdxurl:store --sfdxurlfile ./DEVHUB_SFDX_URL.txt --setalias nebula-logger-packaging --setdefaultdevhubusername
-                  rm ./DEVHUB_SFDX_URL.txt
                   npm run package:version:number:verify
               env:
                   DEVHUB_SFDX_URL: ${{ secrets.DEVHUB_SFDX_URL }}
@@ -154,11 +152,11 @@ jobs:
             - name: 'Authorize Dev Hub'
               shell: bash
               run: |
-                  echo ${{ env.DEVHUB_JWT_SERVER_KEY }} > ./jwt-server.key
+                  echo "${{ env.DEVHUB_JWT_SERVER_KEY }}" > ./jwt-server.key
                   npx sfdx force:auth:jwt:grant --instanceurl https://login.salesforce.com --clientid ${{ env.DEVHUB_CONSUMER_KEY }} --username ${{ env.DEVHUB_BOT_USERNAME }} --jwtkeyfile ./jwt-server.key --setdefaultdevhubusername
                   rm ./jwt-server.key
               env:
-                  DEVHUB_BOT_USERNAME: ${{ secrets.DEVHUB_BOT_USERNAMEEY }}
+                  DEVHUB_BOT_USERNAME: ${{ secrets.DEVHUB_BOT_USERNAME }}
                   DEVHUB_CONSUMER_KEY: ${{ secrets.DEVHUB_CONSUMER_KEY }}
                   DEVHUB_JWT_SERVER_KEY: ${{ secrets.DEVHUB_JWT_SERVER_KEY }}
 
@@ -204,11 +202,11 @@ jobs:
             - name: 'Authorize Dev Hub'
               shell: bash
               run: |
-                  echo ${{ env.DEVHUB_JWT_SERVER_KEY }} > ./jwt-server.key
+                  echo "${{ env.DEVHUB_JWT_SERVER_KEY }}" > ./jwt-server.key
                   npx sfdx force:auth:jwt:grant --instanceurl https://login.salesforce.com --clientid ${{ env.DEVHUB_CONSUMER_KEY }} --username ${{ env.DEVHUB_BOT_USERNAME }} --jwtkeyfile ./jwt-server.key --setdefaultdevhubusername
                   rm ./jwt-server.key
               env:
-                  DEVHUB_BOT_USERNAME: ${{ secrets.DEVHUB_BOT_USERNAMEEY }}
+                  DEVHUB_BOT_USERNAME: ${{ secrets.DEVHUB_BOT_USERNAME }}
                   DEVHUB_CONSUMER_KEY: ${{ secrets.DEVHUB_CONSUMER_KEY }}
                   DEVHUB_JWT_SERVER_KEY: ${{ secrets.DEVHUB_JWT_SERVER_KEY }}
 
@@ -274,11 +272,11 @@ jobs:
             - name: 'Authorize Dev Hub'
               shell: bash
               run: |
-                  echo ${{ env.DEVHUB_JWT_SERVER_KEY }} > ./jwt-server.key
+                  echo "${{ env.DEVHUB_JWT_SERVER_KEY }}" > ./jwt-server.key
                   npx sfdx force:auth:jwt:grant --instanceurl https://login.salesforce.com --clientid ${{ env.DEVHUB_CONSUMER_KEY }} --username ${{ env.DEVHUB_BOT_USERNAME }} --jwtkeyfile ./jwt-server.key --setdefaultdevhubusername
                   rm ./jwt-server.key
               env:
-                  DEVHUB_BOT_USERNAME: ${{ secrets.DEVHUB_BOT_USERNAMEEY }}
+                  DEVHUB_BOT_USERNAME: ${{ secrets.DEVHUB_BOT_USERNAME }}
                   DEVHUB_CONSUMER_KEY: ${{ secrets.DEVHUB_CONSUMER_KEY }}
                   DEVHUB_JWT_SERVER_KEY: ${{ secrets.DEVHUB_JWT_SERVER_KEY }}
 
@@ -331,11 +329,11 @@ jobs:
             - name: 'Authorize Dev Hub'
               shell: bash
               run: |
-                  echo ${{ env.DEVHUB_JWT_SERVER_KEY }} > ./jwt-server.key
+                  echo "${{ env.DEVHUB_JWT_SERVER_KEY }}" > ./jwt-server.key
                   npx sfdx force:auth:jwt:grant --instanceurl https://login.salesforce.com --clientid ${{ env.DEVHUB_CONSUMER_KEY }} --username ${{ env.DEVHUB_BOT_USERNAME }} --jwtkeyfile ./jwt-server.key --setdefaultdevhubusername
                   rm ./jwt-server.key
               env:
-                  DEVHUB_BOT_USERNAME: ${{ secrets.DEVHUB_BOT_USERNAMEEY }}
+                  DEVHUB_BOT_USERNAME: ${{ secrets.DEVHUB_BOT_USERNAME }}
                   DEVHUB_CONSUMER_KEY: ${{ secrets.DEVHUB_CONSUMER_KEY }}
                   DEVHUB_JWT_SERVER_KEY: ${{ secrets.DEVHUB_JWT_SERVER_KEY }}
 
@@ -368,11 +366,11 @@ jobs:
             - name: 'Authorize Dev Hub'
               shell: bash
               run: |
-                  echo ${{ env.DEVHUB_JWT_SERVER_KEY }} > ./jwt-server.key
+                  echo "${{ env.DEVHUB_JWT_SERVER_KEY }}" > ./jwt-server.key
                   npx sfdx force:auth:jwt:grant --instanceurl https://login.salesforce.com --clientid ${{ env.DEVHUB_CONSUMER_KEY }} --username ${{ env.DEVHUB_BOT_USERNAME }} --jwtkeyfile ./jwt-server.key --setdefaultdevhubusername
                   rm ./jwt-server.key
               env:
-                  DEVHUB_BOT_USERNAME: ${{ secrets.DEVHUB_BOT_USERNAMEEY }}
+                  DEVHUB_BOT_USERNAME: ${{ secrets.DEVHUB_BOT_USERNAME }}
                   DEVHUB_CONSUMER_KEY: ${{ secrets.DEVHUB_CONSUMER_KEY }}
                   DEVHUB_JWT_SERVER_KEY: ${{ secrets.DEVHUB_JWT_SERVER_KEY }}
 
