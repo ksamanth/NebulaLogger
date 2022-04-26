@@ -89,7 +89,7 @@ Nebula Logger is available as both an unlocked package and a managed package. Th
 After deploying Nebula Logger to your org, there are a few additional configuration changes needed...
 
 -   Assign permission set(s) to users
-    -   `LoggerLogCreator` provides the minimum access needed for users to generate logs via Apex, Lightning Components, Flow or Process Builder
+    -   `LoggerLogCreator` provides access to all of the Apex classes used to generate logs via Apex, Lightning Components, Flow or Process Builder. This permission set is currently optional - it will be required if/when Salesforce activates the release update called "Require User Access to Apex Classes Invoked by Flow" that will break logging via Flow, unless users have explicit access to Nebula Logger's Apex classes. This permission set provides all of the necessary permissions if/when Salesforce enforces such a security requirement.
     -   `LoggerEndUser` provides access to generate logs, as well as read-only access to any log records shared with the user.
     -   `LoggerLogViewer` provides view-all access (read-only) to all log records. This does **not** provide access to generate logs.
     -   `LoggerAdmin` provides view-all and modify-all access to all log records.

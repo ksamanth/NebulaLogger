@@ -28,7 +28,8 @@
         <apexClass>Logger</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <description>Provides access to generate log entries via Apex, Lightning Components, Flow and Process Builder</description>
+    <description
+    >Provides access to generate log entries via Apex, Lightning Components, Flow and Process Builder. This permission set is currently optional - it is required if/when Salesforce activates the release update called "Require User Access to Apex Classes Invoked by Flow" that will break logging via Flow, unless users have explicit access to Nebula Logger's Apex classes. This permission set provides all of the necessary permissions if/when Salesforce enforces such a security requirement.</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Logger: Log Creator</label>
     <objectPermissions>
